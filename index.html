@@ -76,7 +76,7 @@
   </section>
 
   <p class="pie">Lanzamiento esperado: 15 – 30 de noviembre. Máximo 2 unidades por cliente.<br>
-  La tienda se revisa sola cada ~5 minutos. Esta página se actualiza cada 2 minutos.</p>
+  <span id="frecuencia">La tienda se revisa sola cada 12 h (8 am y 8 pm) y del 14 al 30 de noviembre cada ~5 minutos.</span></p>
 </main>
 
 <script>
@@ -127,7 +127,13 @@
   function pintar(d) {
     const fuertes = d.items.filter((i) => i.nivel === "fuerte");
     const posibles = d.items.filter((i) => i.nivel !== "fuerte");
-    const atrasado = Date.now() - new Date(d.ultima_revision) > 45 * 60000;
+    // Igual que el horario del workflow: del 14 al 30 de nov (hora Colombia) cada 5 min, si no cada 12 h
+    const ahora = new Date(), anio = ahora.getUTCFullYear();
+    const enVentana = ahora >= Date.UTC(anio, 10, 14) && ahora < Date.UTC(anio, 11, 1, 6);
+    const atrasado = Date.now() - new Date(d.ultima_revision) > (enVentana ? 45 : 13 * 60) * 60000;
+    $("frecuencia").textContent = enVentana
+      ? "Lanzamiento en curso: la tienda se revisa sola cada ~5 minutos."
+      : "Por ahora la tienda se revisa cada 12 h (8 am y 8 pm). Del 14 al 30 de noviembre, cada ~5 minutos.";
     const revision = `Última revisión: ${hace(d.ultima_revision)}`;
     const aviso = atrasado ? `<div class="aviso">La última revisión es vieja; el vigilante puede estar atrasado. Mira la tienda por si acaso.</div>` : "";
 

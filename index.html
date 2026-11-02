@@ -108,7 +108,13 @@
     try {
       const r = await fetch("status.json?t=" + Date.now(), { cache: "no-store" });
       if (!r.ok) throw new Error(r.status);
-      pintar(await r.json());
+      const d = await r.json();
+      // ?prueba en la URL muestra un calendario falso para ver cómo se ve
+      if (new URLSearchParams(location.search).has("prueba")) {
+        d.items.unshift({ nivel: "fuerte", nombre: "[PRUEBA] Calendario de Adviento Trendy 2026", precio: 189900,
+          disponible: true, imagen: "icon.svg", link: "https://www.maquillajetrendyshop.com/" });
+      }
+      pintar(d);
     } catch (e) {
       $("estado").className = "card estado";
       $("estado").innerHTML = `<div class="emoji">⚠️</div><h2>Sin datos</h2><p>Todavía no hay una revisión guardada o no hay conexión.</p>`;

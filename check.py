@@ -3,6 +3,7 @@
 Uso:
   python check.py                 # revisión normal (lo que corre GitHub Actions)
   python check.py --probar labial # simula que "labial" es palabra clave, para probar avisos
+  python check.py --simular       # mete un calendario falso entre los productos de la tienda
 """
 import json
 import os
@@ -22,6 +23,20 @@ NTFY_TOPIC = os.environ.get("NTFY_TOPIC", "").strip()
 COLECCION_ADVIENTO = "161"
 # Productos internos de la tienda que no son el real (p.ej. "Unidad De Prueba Ecommerce")
 IGNORAR_NOMBRES = ["prueba", "test"]
+
+# Modo simulación: producto falso con la misma forma que devuelve la API de la tienda.
+# No guarda status.json, así la página real no cambia.
+SIMULAR = "--simular" in sys.argv
+PRODUCTO_FALSO = {
+    "productId": "simulado",
+    "productName": "Calendario de Adviento Trendy 2026",
+    "linkText": "calendario-de-adviento-trendy-2026",
+    "link": BASE + "/",
+    "productClusters": {"185": "Toda la tienda", COLECCION_ADVIENTO: "Calendario Adviento"},
+    "categories": ["/Maquillaje/"],
+    "items": [{"images": [{"imageUrl": ""}],
+               "sellers": [{"commertialOffer": {"Price": 189900, "AvailableQuantity": 50}}]}],
+}
 
 # Si alguna aparece en el nombre, link o colección del producto -> "¡YA ESTÁ!"
 FUERTES = [
@@ -70,6 +85,8 @@ def productos_catalogo():
                 vistos[p["productId"]] = p
         except Exception as e:
             print(f"aviso: falló {url}: {e}")
+    if SIMULAR:
+        vistos[PRODUCTO_FALSO["productId"]] = PRODUCTO_FALSO
     return list(vistos.values())
 
 
@@ -135,7 +152,8 @@ def avisar(item):
     precio = f" · ${item['precio']:,.0f}".replace(",", ".") if item.get("precio") else ""
     cuerpo = {
         "topic": NTFY_TOPIC,
-        "title": "¡YA ESTÁ el calendario de Trendy!" if fuerte else "Posible producto navideño en Trendy",
+        "title": ("[PRUEBA] " if SIMULAR else "")
+                 + ("¡YA ESTÁ el calendario de Trendy!" if fuerte else "Posible producto navideño en Trendy"),
         "message": f"{item['nombre']}{precio}\n{estado}\nToca para abrirlo.",
         "click": item["link"],
         "priority": 5 if fuerte else 3,
@@ -189,7 +207,9 @@ def main():
         viejo = (ahora - datetime.fromisoformat(anterior["ultima_revision"])).total_seconds() > 55 * 60
     except (KeyError, ValueError):
         viejo = True
-    if not sin_cambios or viejo:
+    if SIMULAR:
+        print("simulación: no se guarda status.json")
+    elif not sin_cambios or viejo:
         with open(STATUS_FILE, "w", encoding="utf-8") as f:
             json.dump(estado, f, ensure_ascii=False, indent=1)
 

@@ -1,6 +1,6 @@
 # Vigilante del calendario de adviento Trendy
 
-Revisa sola https://www.maquillajetrendyshop.com cada ~10 minutos (GitHub Actions, gratis) y:
+Revisa sola https://www.maquillajetrendyshop.com cada ~5 minutos (GitHub Actions, gratis) y:
 
 - manda una **notificación al celular** (app ntfy) con el link directo al producto;
 - actualiza una **página web** (GitHub Pages) que dice "¡YA ESTÁ!" o "Todavía no".
@@ -16,8 +16,8 @@ Se ignoran productos internos de prueba ("Unidad De Prueba Ecommerce").
 
 ## Archivos
 
-- `check.py` — el vigilante (Python, sin dependencias). `python check.py --probar "pizza planet"` simula un hallazgo.
-- `.github/workflows/vigilar.yml` — lo corre cada 10 min y guarda `status.json`.
+- `check.py` — el vigilante (Python, sin dependencias). 
+- `.github/workflows/vigilar.yml` — lo corre cada 5 min y guarda `status.json`.
 - `index.html` — la página para el celular (se puede "Agregar a pantalla de inicio").
 
 ## Configuración

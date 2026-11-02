@@ -2,7 +2,7 @@ name: Vigilar calendario Trendy
 
 on:
   schedule:
-    - cron: "*/10 * * * *"   # cada 10 min (GitHub a veces lo retrasa unos minutos)
+    - cron: "*/5 * * * *"    # cada 5 min (lo mínimo que permite GitHub; a veces lo retrasa)
   workflow_dispatch:          # botón "Run workflow" para revisar a mano
 
 permissions:

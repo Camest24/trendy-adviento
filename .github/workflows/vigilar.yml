@@ -1,0 +1,30 @@
+name: Vigilar calendario Trendy
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # cada 10 min (GitHub a veces lo retrasa unos minutos)
+  workflow_dispatch:          # botón "Run workflow" para revisar a mano
+
+permissions:
+  contents: write
+
+concurrency: vigilar
+
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Revisar la tienda
+        run: python check.py
+        env:
+          NTFY_TOPIC: ${{ vars.NTFY_TOPIC }}
+      - name: Guardar estado
+        run: |
+          git config user.name "vigilante"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add status.json
+          git diff --cached --quiet || (git commit -m "estado $(date -u +%H:%M)" && git push)

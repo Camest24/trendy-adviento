@@ -22,6 +22,6 @@ Se ignoran productos internos de prueba ("Unidad De Prueba Ecommerce").
 
 ## Configuración
 
-- Variable del repo `NTFY_TOPIC` = `trendy-adviento-a95ef485` (Settings → Secrets and variables → Actions → Variables).
+- Variable del repo `NTFY_TOPIC` = `trendy-adviento-8adf0d0a` (Settings → Secrets and variables → Actions → Variables).
 - GitHub Pages: Settings → Pages → Deploy from branch → `main` / root.
 - Para apagarlo después de noviembre: Actions → "Vigilar calendario Trendy" → Disable workflow.

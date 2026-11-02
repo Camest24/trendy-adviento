@@ -83,6 +83,7 @@
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const precio = (n) => n ? "$" + Math.round(n).toLocaleString("es-CO") : "";
+  const REPO = "Camest24/trendy-adviento";
   let tema = "";
 
   function hace(fecha) {
@@ -108,7 +109,15 @@
     try {
       const r = await fetch("status.json?t=" + Date.now(), { cache: "no-store" });
       if (!r.ok) throw new Error(r.status);
-      pintar(await r.json());
+      const d = await r.json();
+      // status.json solo se guarda si algo cambia (o cada hora); la hora real de
+      // la última revisión la da la API pública de GitHub Actions.
+      try {
+        const g = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/vigilar.yml/runs?status=success&per_page=1`);
+        const run = (await g.json()).workflow_runs?.[0];
+        if (run && new Date(run.updated_at) > new Date(d.ultima_revision)) d.ultima_revision = run.updated_at;
+      } catch {}
+      pintar(d);
     } catch (e) {
       $("estado").className = "card estado";
       $("estado").innerHTML = `<div class="emoji">⚠️</div><h2>Sin datos</h2><p>Todavía no hay una revisión guardada o no hay conexión.</p>`;
@@ -118,7 +127,7 @@
   function pintar(d) {
     const fuertes = d.items.filter((i) => i.nivel === "fuerte");
     const posibles = d.items.filter((i) => i.nivel !== "fuerte");
-    const atrasado = Date.now() - new Date(d.ultima_revision) > 90 * 60000;
+    const atrasado = Date.now() - new Date(d.ultima_revision) > 45 * 60000;
     const revision = `Última revisión: ${hace(d.ultima_revision)}`;
     const aviso = atrasado ? `<div class="aviso">La última revisión es vieja; el vigilante puede estar atrasado. Mira la tienda por si acaso.</div>` : "";
 

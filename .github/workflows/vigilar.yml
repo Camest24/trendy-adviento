@@ -2,10 +2,7 @@ name: Vigilar calendario Trendy
 
 on:
   schedule:
-    # Horas en UTC (Colombia = UTC-5)
-    - cron: "0 1,13 * * *"      # cada 12 h: 8 am y 8 pm hora Colombia
-    - cron: "*/5 * 14-30 11 *"  # 14-30 de noviembre: cada 5 min
-    - cron: "*/5 0-5 1 12 *"    # hasta la medianoche del 30 de nov en Colombia
+    - cron: "*/10 * * * *"      # cada 10 min, a todas horas
   workflow_dispatch:          # botón "Run workflow" para revisar a mano
 
 permissions:

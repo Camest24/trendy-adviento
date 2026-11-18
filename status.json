@@ -13,20 +13,6 @@
     "adviento",
     "calendario"
    ]
-  },
-  {
-   "id": "p1047",
-   "nombre": "Calendario de Adviento Wonderland – Edición Luxury",
-   "link": "https://www.maquillajetrendyshop.com/calendario-de-adviento-2026-wonderland-b/p",
-   "imagen": "https://b2ctrendy.vteximg.com.br/arquivos/ids/164487/foto-3.jpg?v=639298401512770000",
-   "precio": 200000.0,
-   "disponible": false,
-   "nivel": "fuerte",
-   "palabras": [
-    "colección Calendario Adviento",
-    "adviento",
-    "calendario"
-   ]
   }
  ],
  "avisados": [
@@ -36,5 +22,5 @@
   "url:https://www.maquillajetrendyshop.com/calendario-de-adviento:disponible"
  ],
  "ntfy_topic": "trendy-adviento-8adf0d0a",
- "ultima_revision": "2026-11-18T11:56:43+00:00"
+ "ultima_revision": "2026-11-18T20:23:11+00:00"
 }

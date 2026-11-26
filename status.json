@@ -1,20 +1,6 @@
 {
- "encontrado": true,
- "items": [
-  {
-   "id": "url:https://www.maquillajetrendyshop.com/calendario-de-adviento",
-   "nombre": "Página encontrada en la portada",
-   "link": "https://www.maquillajetrendyshop.com/calendario-de-adviento",
-   "imagen": "",
-   "precio": null,
-   "disponible": true,
-   "nivel": "fuerte",
-   "palabras": [
-    "adviento",
-    "calendario"
-   ]
-  }
- ],
+ "encontrado": false,
+ "items": [],
  "avisados": [
   "p1047",
   "p1047:disponible",
@@ -22,5 +8,5 @@
   "url:https://www.maquillajetrendyshop.com/calendario-de-adviento:disponible"
  ],
  "ntfy_topic": "trendy-adviento-8adf0d0a",
- "ultima_revision": "2026-11-26T02:29:30+00:00"
+ "ultima_revision": "2026-11-26T11:26:46+00:00"
 }
